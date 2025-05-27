@@ -1,6 +1,8 @@
 from infraestrutura.configs.connection import DBConnetcion
 from infraestrutura.entities.usuario import Usuario
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import IntegrityError
+
 
 class UsuarioRepository:
 
@@ -9,11 +11,10 @@ class UsuarioRepository:
             data = db.session.query(Usuario).all()
             return data
         
-        #teste de excessao
     def select_tipo(self):
         with DBConnetcion() as db:
             try:
-                data = db.session.query(Usuario).filter(Usuario.tipo == 'Fornecedor').one()
+                data = db.session.query(Usuario).filter(Usuario.tipo != 'Aluno' or Usuario.tipo != 'Professor').one()
                 return data
             except NoResultFound:
                 return None
@@ -28,18 +29,21 @@ class UsuarioRepository:
                 data_insert = Usuario(nome = nome, email = email, tipo = tipo)
                 db.session.add(data_insert)
                 db.session.commit()
-            except Exception as exception:
+            except IntegrityError as e:
                 db.session.rollback()
-                raise exception
-            
-    def delete (self, nome):
+                print(f"Erro de integridade ao inserir usuário: {e.orig}")
+            except Exception as e:
+                db.session.rollback()
+                print(f"Erro ao inserir usuário: {e}")
+
+    def delete (self, id):
         with DBConnetcion() as db:
-            db.session.query(Usuario).filter(Usuario.nome == nome).delete() #filtro para deletar pelo nome, verificar se a melhor opcao seria por id 
+            db.session.query(Usuario).filter(Usuario.id == id).delete()  
             db.session.commit()
 
-    def update (self, nome, email, tipo):
+    def update (self, id, novo_nome, novo_email, novo_tipo):
         with DBConnetcion() as db:
-            db.session.query(Usuario).filter(Usuario.nome == nome).update(nome = nome, email = email, tipo = tipo) #filtro para deletar pelo nome, verificar se a melhor opcao seria por id e atualizando todos os dados do usuario 
+            db.session.query(Usuario).filter(Usuario.id == id).update({"nome": novo_nome, "email": novo_email, "tipo": novo_tipo}) 
             db.session.commit()
 
 

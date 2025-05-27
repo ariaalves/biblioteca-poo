@@ -12,5 +12,8 @@ class Emprestimo(Base):
     id_usuario = Column(Integer, ForeignKey("usuario.id"))
     id_livro = Column(Integer, ForeignKey("livro.id"))
 
-    usuario = relationship("Usuario")
-    livro = relationship("Livro")
+    usuario = relationship("Usuario", back_populates="emprestimos")
+    livro = relationship("Livro", back_populates="emprestimos")
+
+    def __repr__(self):
+        return f"<Emprestimo(id={self.id}, data_emprestimo='{self.data}', data_devolucao='{self.data_devolucao}')>"

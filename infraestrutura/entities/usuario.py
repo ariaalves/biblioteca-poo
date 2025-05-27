@@ -1,6 +1,7 @@
 from infraestrutura.configs.base import Base
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from abc import ABC,  abstractmethod
+from sqlalchemy.orm import relationship
 
 class Pessoa(ABC):
 
@@ -21,6 +22,8 @@ class Usuario(Base, Pessoa):
     tipo = Column(String)
 
     contador = 0
+
+    emprestimos = relationship("Emprestimo", back_populates="usuario")
     
     def __init__(self, nome, email, tipo):
         Pessoa.__init__(self, nome, email)

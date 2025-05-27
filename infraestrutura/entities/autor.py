@@ -8,3 +8,8 @@ class Autor(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String)
     nacionalidade = Column(String)
+
+    livro_autores = relationship("LivroAutor", back_populates="autor")
+    
+    def __repr__(self):
+        return f"<Autor(id={self.id}, nome='{self.nome}', nacionalidade='{self.nacionalidade}')>"

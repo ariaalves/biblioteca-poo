@@ -9,13 +9,19 @@ class Livro(Base):
     ano = Column(Date)
     titulo = Column(String)
     isbn = Column(String)
-    qtd = Column(Integer)
+    __qtd = Column("qtd",Integer)
 
     id_editora = Column(Integer, ForeignKey("editora.id"))
     id_categoria = Column(Integer, ForeignKey("categoria.id"))
 
-    editora = relationship("Editora")
-    categoria = relationship("Categoria")
+    editora = relationship("Editora", back_populates="livros")
+    categoria = relationship("Categoria", back_populates="livros")
+
+    livro_autores = relationship("LivroAutor", back_populates="livro")
+
+    emprestimos = relationship("Emprestimo", back_populates="livro")
+
+
 
     @property
     def qtd(self):
@@ -32,3 +38,6 @@ class Livro(Base):
             print("Livro indisponível no momento, necessário reposição")
         else:
             print("Livro disponível")
+
+    def __repr__(self):
+         return f"<Livro(id={self.id}, titulo='{self.titulo}', ano='{self.ano}', isbn='{self.isbn}'. quantidade='{self.qtd}')>"

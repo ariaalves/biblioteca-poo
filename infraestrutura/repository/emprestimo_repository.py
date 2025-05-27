@@ -1,5 +1,6 @@
 from infraestrutura.configs.connection import DBConnetcion
 from infraestrutura.entities.emprestimo import Emprestimo
+from sqlalchemy.exc import IntegrityError
 
 class EmprestimoRepository:
     def select(self):
@@ -9,16 +10,23 @@ class EmprestimoRepository:
         
     def insert (self, data, data_devolucao):
         with DBConnetcion() as db:
-            data_insert = Emprestimo(data = data, data_devolucao = data_devolucao)
-            db.session.add(data_insert)
-            db.session.commit()
-            
-    def delete (self, data):
+            try:            
+                data_insert = Emprestimo(data = data, data_devolucao = data_devolucao)
+                db.session.add(data_insert)
+                db.session.commit()
+            except IntegrityError as e:
+                db.session.rollback()
+                print(f"Erro de integridade ao inserir empréstimo: {e.orig}")
+            except Exception as e:
+                db.session.rollback()
+                print(f"Erro ao inserir empréstimo: {e}")
+
+    def delete (self, id):
         with DBConnetcion() as db:
-            db.session.query(Emprestimo).filter(Emprestimo.data == data).delete() #filtro para deletar pelo nome, verificar se a melhor opcao seria por id 
+            db.session.query(Emprestimo).filter(Emprestimo.id == id).delete()
             db.session.commit()
 
-    def update (self, data, data_devolucao):
+    def update (self, id, nova_data, nova_data_devolucao):
         with DBConnetcion() as db:
-            db.session.query(Emprestimo).filter(Emprestimo.data == data).update(data_devolucao = data_devolucao) #cadastrado o emprestimo, para atualizar será necessário excluir, podendo alterar apenas a data de devolução
+            db.session.query(Emprestimo).filter(Emprestimo.id == id).update({"data" : nova_data, "data_devolucao" : nova_data_devolucao}) #cadastrado o emprestimo, para atualizar será necessário excluir, podendo alterar apenas a data de devolução
             db.session.commit()

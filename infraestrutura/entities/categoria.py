@@ -6,5 +6,10 @@ class Categoria(Base):
 
     __tablename__= "categoria"
     id = Column(Integer, primary_key=True)
-    descricao = Column(String)
+    nome = Column(String)
+
+    livros = relationship("Livro", back_populates="categoria")
+
+    def __repr__(self):
+        return f"<Categoria(id={self.id}, nome='{self.nome}')>"
  

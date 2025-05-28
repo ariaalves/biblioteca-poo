@@ -10,19 +10,7 @@ class UsuarioRepository:
         with DBConnetcion() as db:
             data = db.session.query(Usuario).all()
             return data
-        
-    def select_tipo(self):
-        with DBConnetcion() as db:
-            try:
-                data = db.session.query(Usuario).filter(Usuario.tipo != 'Aluno' or Usuario.tipo != 'Professor').one()
-                return data
-            except NoResultFound:
-                return None
-            except Exception as exception:
-                db.session.rollback()
-                raise exception
             
-        
     def insert (self, nome, email, tipo):
         with DBConnetcion() as db:
             try:

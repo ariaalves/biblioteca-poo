@@ -7,7 +7,7 @@ class Editora(Base):
 
     __tablename__= "editora"
     id = Column(Integer, primary_key=True)
-    nome = Column(String)
+    nome = Column(String, nullable= False, unique= True)
 
     livros = relationship("Livro", back_populates="editora")    
 

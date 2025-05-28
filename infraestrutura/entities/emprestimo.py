@@ -7,8 +7,8 @@ class Emprestimo(Base):
 
     __tablename__= "emprestimo"
     id = Column(Integer, primary_key=True)
-    data = Column(Date)
-    data_devolucao = Column(Date)
+    data = Column(Date, nullable= False)
+    data_devolucao = Column(Date, nullable= True)
     id_usuario = Column(Integer, ForeignKey("usuario.id"))
     id_livro = Column(Integer, ForeignKey("livro.id"))
 

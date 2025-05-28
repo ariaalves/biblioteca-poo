@@ -25,6 +25,7 @@ class EditoraRepository:
     def delete (self, id):
         with DBConnetcion() as db:
             db.session.query(Editora).filter(Editora.id == id).delete() 
+            db.session.commit()
 
     def update (self, id, novo_nome):
         with DBConnetcion() as db:

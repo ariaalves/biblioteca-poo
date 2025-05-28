@@ -1,17 +1,34 @@
 from infraestrutura.configs.connection import DBConnetcion
 from infraestrutura.entities.emprestimo import Emprestimo
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import joinedload
+
 
 class EmprestimoRepository:
     def select(self):
         with DBConnetcion() as db:
-            data = db.session.query(Emprestimo).all()
-            return data
+            emprestimos = db.session.query(Emprestimo)\
+                .options(
+                    joinedload(Emprestimo.usuario), 
+                    joinedload(Emprestimo.livro)
+                ).all()
+
+            result = []
+            for e in emprestimos:
+                emprestimo_info = {
+                    "id": e.id,
+                    "data": e.data,
+                    "data_devolucao": e.data_devolucao,
+                    "usuario": e.usuario.nome if e.usuario else None,
+                    "livro": e.livro.titulo if e.livro else None
+                }
+                result.append(emprestimo_info)
+            return result
         
-    def insert (self, data, data_devolucao):
+    def insert (self, data, id_usuario, id_livro, data_devolucao = None):
         with DBConnetcion() as db:
             try:            
-                data_insert = Emprestimo(data = data, data_devolucao = data_devolucao)
+                data_insert = Emprestimo(data = data, data_devolucao = data_devolucao, id_usuario = id_usuario, id_livro = id_livro)
                 db.session.add(data_insert)
                 db.session.commit()
             except IntegrityError as e:
@@ -26,7 +43,7 @@ class EmprestimoRepository:
             db.session.query(Emprestimo).filter(Emprestimo.id == id).delete()
             db.session.commit()
 
-    def update (self, id, nova_data, nova_data_devolucao):
+    def update (self, id, nova_data, nova_data_devolucao = None):
         with DBConnetcion() as db:
             db.session.query(Emprestimo).filter(Emprestimo.id == id).update({"data" : nova_data, "data_devolucao" : nova_data_devolucao}) #cadastrado o emprestimo, para atualizar será necessário excluir, podendo alterar apenas a data de devolução
             db.session.commit()

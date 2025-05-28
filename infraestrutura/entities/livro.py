@@ -6,18 +6,18 @@ class Livro(Base):
 
     __tablename__= "livro"
     id = Column(Integer, primary_key=True)
-    ano = Column(Date)
-    titulo = Column(String)
-    isbn = Column(String)
-    __qtd = Column("qtd",Integer)
+    ano = Column(String, nullable = False)
+    titulo = Column(String, nullable= False, unique= True)
+    isbn = Column(String, nullable= False)
+    __qtd = Column("qtd",Integer, nullable= False)
 
     id_editora = Column(Integer, ForeignKey("editora.id"))
     id_categoria = Column(Integer, ForeignKey("categoria.id"))
+    id_autor = Column(Integer, ForeignKey("autor.id"))
 
     editora = relationship("Editora", back_populates="livros")
     categoria = relationship("Categoria", back_populates="livros")
-
-    livro_autores = relationship("LivroAutor", back_populates="livro")
+    autor = relationship("Autor", back_populates="livros")
 
     emprestimos = relationship("Emprestimo", back_populates="livro")
 

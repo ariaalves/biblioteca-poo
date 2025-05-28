@@ -17,9 +17,9 @@ class Usuario(Base, Pessoa):
 
     __tablename__ = 'usuario'
     id = Column(Integer, primary_key=True)
-    nome = Column(String)
-    email = Column(String)
-    tipo = Column(String)
+    nome = Column(String, nullable= False)
+    email = Column(String, nullable= False, unique = True)
+    tipo = Column(String, nullable= False)
 
     contador = 0
 

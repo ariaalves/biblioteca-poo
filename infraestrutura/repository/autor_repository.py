@@ -8,7 +8,7 @@ class AutorRepository:
             data = db.session.query(Autor).all()
             return data
     
-    def insert (self, nome, nacionalidade):
+    def insert (self, nome, nacionalidade = None):
        with DBConnetcion() as db:
             try:
                 data_insert = Autor(nome=nome, nacionalidade=nacionalidade)
@@ -26,7 +26,7 @@ class AutorRepository:
             db.session.query(Autor).filter(Autor.id == id).delete()  
             db.session.commit()
 
-    def update (self, novo_nome, nova_nacionalidade):
+    def update (self, id, novo_nome, nova_nacionalidade = None):
         with DBConnetcion() as db:
             db.session.query(Autor).filter(Autor.id == id).update({"nome": novo_nome, "nacionalidade" : nova_nacionalidade}) 
             db.session.commit()

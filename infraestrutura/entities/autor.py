@@ -6,10 +6,10 @@ class Autor(Base):
 
     __tablename__= "autor"
     id = Column(Integer, primary_key=True)
-    nome = Column(String)
-    nacionalidade = Column(String)
+    nome = Column(String, nullable= False, unique = True)
+    nacionalidade = Column(String, nullable= True)
 
-    livro_autores = relationship("LivroAutor", back_populates="autor")
+    livros = relationship("Livro", back_populates="autor") 
     
     def __repr__(self):
         return f"<Autor(id={self.id}, nome='{self.nome}', nacionalidade='{self.nacionalidade}')>"

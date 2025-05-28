@@ -6,14 +6,13 @@ from infraestrutura.entities.usuario import Usuario
 from infraestrutura.entities.editora import Editora
 from infraestrutura.entities.categoria import Categoria
 from infraestrutura.entities.emprestimo import Emprestimo
-from infraestrutura.entities.livro_autor import LivroAutor
 
 import os
 
 def resetar_banco():
-    # if os.path.exists("biblioteca.db"):
-    #     print("🗑️  Removendo banco anterior...")
-    #     os.remove("biblioteca.db")
+    if os.path.exists("biblioteca.db"):
+        print("🗑️  Removendo banco anterior...")
+        os.remove("biblioteca.db")
 
     print("⚙️  Criando novo banco de dados...")
     connection = DBConnetcion()

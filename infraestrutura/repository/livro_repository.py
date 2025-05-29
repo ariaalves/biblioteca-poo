@@ -6,28 +6,29 @@ from sqlalchemy.orm import joinedload
 class LivroRepository:
     def select(self):
         with DBConnetcion() as db:
-           livros = db.session.query(Livro)\
+            livros = db.session.query(Livro)\
                 .options(
                     joinedload(Livro.editora),
                     joinedload(Livro.categoria),
                     joinedload(Livro.autor)
-            ).all()
+                ).all()
 
-        result = []
-           
-        for l in livros:
-            livro_info = {
-                "id": l.id,
-                "titulo": l.titulo,
-                "ano": l.ano,
-                "isbn": l.isbn,
-                "qtd": l.qtd,
-                "editora": l.editora.nome if l.editora else None,
-                "categoria": l.categoria.nome if l.categoria else None,
-                "autor": l.autor.nome if l.autor else None
-            }
-            result.append(livro_info)
-            return result
+            result = []
+            for l in livros:
+                livro_info = {
+                    "id": l.id,
+                    "titulo": l.titulo,
+                    "ano": l.ano,
+                    "isbn": l.isbn,
+                    "qtd": l.qtd,
+                    "editora": l.editora.nome if l.editora else None,
+                    "categoria": l.categoria.nome if l.categoria else None,
+                    "autor": l.autor.nome if l.autor else None
+                }
+                result.append(livro_info)
+        
+            return result 
+
         
     
     def insert (self, titulo, isbn, ano, qtd, id_editora, id_categoria, id_autor):

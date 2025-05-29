@@ -1,6 +1,6 @@
 from infraestrutura.configs.base import Base
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
-from abc import ABC,  abstractmethod
+from sqlalchemy import Column, Integer, String
+from abc import ABC, abstractmethod
 from sqlalchemy.orm import relationship
 
 class Pessoa(ABC):
@@ -10,16 +10,16 @@ class Pessoa(ABC):
         self.email = email
 
     @abstractmethod
-    def exibir(self):
+    def realizar_acao_padrao(self):
         pass
 
 class Usuario(Base, Pessoa):
 
     __tablename__ = 'usuario'
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable= False)
-    email = Column(String, nullable= False, unique = True)
-    tipo = Column(String, nullable= False)
+    nome = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    tipo = Column(String, nullable=False)
 
     contador = 0
 
@@ -33,9 +33,9 @@ class Usuario(Base, Pessoa):
     @classmethod
     def contador_instancias(cls):
         cls.contador += 1
-    
-    def exibir(self):
-        print(f"Usuário: {self.nome}, Email: {self.email}")
+
+    def realizar_acao_padrao(self):
+        print(f"Ação padrão: registrando login do usuário '{self.nome}' ({self.email})")
 
     def __repr__(self):
         return f"<Usuario(id={self.id}, nome='{self.nome}', email='{self.email}', tipo='{self.tipo}')>"

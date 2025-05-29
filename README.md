@@ -1,44 +1,48 @@
+
 # 📚 Tema do Projeto: Biblioteca
+
+Sistema simples de gerenciamento de biblioteca, com funcionalidades para cadastro de livros, usuários e empréstimos.
 
 ## 🧱 Classes
 
-- **Biblioteca** (Classe Abstrata)  
-  Define a estrutura básica para uma biblioteca, exigindo a implementação do método `emprestar()`.
+* *Livro*: representa um livro com título, ISBN, ano, quantidade, editora, categoria e autor.
+* *Usuário*: representa uma pessoa que pode realizar empréstimos.
+* *Editora*: entidade responsável pela publicação do livro.
+* *Categoria*: representa o gênero do livro.
+* *Autor*: representa o autor do livro.
+* *Empréstimo*: registra o empréstimo de livros a usuários.
 
-- **Livro** (herda de Biblioteca)  
-  Representa um livro. Permite o registro de novos livros, o empréstimo e a devolução.
+## 🛠 Como Executar
 
-- **Pessoa** (Classe Abstrata)  
-  Define os atributos básicos de uma pessoa (identificador e nome), exigindo a implementação do método `cadastrar()`.
+1. Certifique-se de que o Python 3 está instalado. Caso não esteja, acesse o link abaixo:
+  [Instalar Python 3](https://www.python.org/downloads/)
 
-- **Usuario** (herda de Pessoa)  
-  Representa um usuário da biblioteca. Pode ser cadastrado e listado.
+2. Instale o pacote SQLAlchemy com o comando:
 
-- **Fornecedor** (herda de Pessoa)  
-  Representa fornecedores cadastrados, com métodos semelhantes aos do usuário.
+   pip install sqlalchemy
+   
+3. Execute o arquivo principal:
 
-## 🛠️ Como Executar
+   python3 main.py
+   
+4. Use o menu no terminal para acessar as funcionalidades.
 
-1. Certifique-se de que o Python 3 está instalado no seu sistema.
-2. Salve o código como `classes.py`.
-3. Execute no terminal com o comando:
+## ⚙ Funcionalidades Principais
 
-```bash
-python classes.py
-```
+*Cadastrar, listar, atualizar e deletar: 
 
-O sistema criará um usuário de exemplo e imprimirá a lista de registros no console.
+    -Livro, 
+    -Usuário, 
+    -Editora, 
+    -Autor,
+    -Categoria,
+    -Empréstimo
 
-## ⚙️ Funcionalidades Principais
-
-- Cadastro e listagem de **usuários** e **fornecedores**.
-- Registro de **livros** com atributos como ISBN, título, gênero, autor e ano.
-- **Empréstimo** e **devolução** de livros com controle de disponibilidade.
+* Listar usuários pelo filtro tipo, ex: Aluno
 
 ## 👨‍💻 Integrantes do Grupo
 
-- Ariany Alves Silva  
-- Erik Paulino Tertuliano  
-- Heitor dos Santos Oliveira  
-- Theofilo Fernandes de Mesquita
-
+* Ariany Alves Silva
+* Erik Paulino Tertuliano
+* Heitor dos Santos Oliveira
+* Theofilo Fernandes de Mesquita

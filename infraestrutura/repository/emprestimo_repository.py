@@ -43,7 +43,7 @@ class EmprestimoRepository:
             db.session.query(Emprestimo).filter(Emprestimo.id == id).delete()
             db.session.commit()
 
-    def update (self, id, nova_data, nova_data_devolucao = None):
+    def update (self, id, data_devolucao):
         with DBConnetcion() as db:
-            db.session.query(Emprestimo).filter(Emprestimo.id == id).update({"data" : nova_data, "data_devolucao" : nova_data_devolucao}) #cadastrado o emprestimo, para atualizar será necessário excluir, podendo alterar apenas a data de devolução
+            db.session.query(Emprestimo).filter(Emprestimo.id == id).update({"data_devolucao" : data_devolucao})
             db.session.commit()

@@ -21,8 +21,6 @@ class Livro(Base):
 
     emprestimos = relationship("Emprestimo", back_populates="livro")
 
-
-
     @property
     def qtd(self):
         return self.__qtd
